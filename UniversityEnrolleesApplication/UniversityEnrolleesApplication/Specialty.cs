@@ -2,7 +2,7 @@
 
 namespace UniversityEnrolleesApplication
 {
-    struct RequiredCT
+    public struct RequiredCT
     {
         public RequiredCT (uint _SubjectID, bool _UsedInPerExamComparision)
         {
@@ -14,7 +14,7 @@ namespace UniversityEnrolleesApplication
         public bool UsedInPerExamComparision;
     }
 
-    struct Specialty
+    public class Specialty
     {
         public Specialty (string _Name, uint _Type, uint _MaxEnrollees, bool _IsPedagogical)
         {
@@ -26,6 +26,8 @@ namespace UniversityEnrolleesApplication
             RequiredCTs = new SortedList <uint, RequiredCT> ();
             SchoolMarksPriorities = new SortedList <uint, uint> ();
             AcceptedRODSubjects = new List <uint> ();
+            
+            Enrollees = new List <Enrollee> ();
         }
 
         public string Name;
@@ -36,5 +38,8 @@ namespace UniversityEnrolleesApplication
         public SortedList <uint, RequiredCT> RequiredCTs;
         public SortedList <uint, uint> SchoolMarksPriorities;
         public List <uint> AcceptedRODSubjects;
+        
+        // Runtime.
+        public List <Enrollee> Enrollees;
     }
 }

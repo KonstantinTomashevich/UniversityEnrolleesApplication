@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace UniversityEnrolleesApplication
 {
-    enum RODDiplomaTypeEnum
+    public enum RODDiplomaTypeEnum
     {
         FIRST = 1,
         SECOND = 2,
@@ -10,7 +11,7 @@ namespace UniversityEnrolleesApplication
         NONE = 4
     }
 
-    struct Enrollee
+    public class Enrollee
     {
         public Enrollee (bool _HasSchoolGoldMedal, string _RODDiplomaType, uint _RODSubjectID)
         {
@@ -39,6 +40,7 @@ namespace UniversityEnrolleesApplication
             Choices = new SortedList <uint, uint> ();
 
             SchoolMedianMarkPoints = 0;
+            AppliedIndex = UInt32.MaxValue;
         }
 
         public bool HasSchoolGoldMedal;
@@ -51,5 +53,6 @@ namespace UniversityEnrolleesApplication
 
         // Runtime.
         public uint SchoolMedianMarkPoints;
+        public uint AppliedIndex;
     }
 }

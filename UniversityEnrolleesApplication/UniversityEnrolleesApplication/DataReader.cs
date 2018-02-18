@@ -5,9 +5,12 @@ namespace UniversityEnrolleesApplication
 {
     static class DataReader
     {
-        public static void ReadData (out Dictionary <uint, Enrollee> enrollees, out Dictionary <uint, Specialty> specialties)
+        public static void ReadData (out Dictionary <uint, Enrollee> enrollees,
+            out Dictionary <uint, Specialty> specialties)
         {
-            var connection = new MySqlConnection ("server=localhost;database=Enrollees;uid=UEAAUser;password=UEAAUSERPASSWORD");
+            var connection =
+                new MySqlConnection ("server=localhost;database=Enrollees;uid=UEAAUser;password=UEAAUSERPASSWORD");
+            
             connection.Open ();
             ReadEnrollees (out enrollees, connection);
             ReadCTsResults (enrollees, connection);
@@ -23,7 +26,7 @@ namespace UniversityEnrolleesApplication
 
         private static void ReadEnrollees (out Dictionary <uint, Enrollee> enrollees, MySqlConnection connection)
         {
-            enrollees = new Dictionary <uint, Enrollee> ();           
+            enrollees = new Dictionary <uint, Enrollee> ();
             var readEnrollesCommand = new MySqlCommand ("select * from enrollees", connection);
             var reader = readEnrollesCommand.ExecuteReader ();
 
@@ -44,7 +47,8 @@ namespace UniversityEnrolleesApplication
 
             while (reader.Read ())
             {
-                enrollees [reader.GetUInt32 ("BelongsTo")].CTsResults [reader.GetUInt32 ("SubjectID")] = reader.GetUInt32 ("Result");
+                enrollees [reader.GetUInt32 ("BelongsTo")].CTsResults [reader.GetUInt32 ("SubjectID")] =
+                    reader.GetUInt32 ("Result");
             }
 
             reader.Close ();
@@ -57,7 +61,8 @@ namespace UniversityEnrolleesApplication
 
             while (reader.Read ())
             {
-                enrollees[reader.GetUInt32 ("BelongsTo")].SchoolMarks [reader.GetUInt32 ("SubjectID")] = reader.GetUInt32 ("Mark");
+                enrollees [reader.GetUInt32 ("BelongsTo")].SchoolMarks [reader.GetUInt32 ("SubjectID")] =
+                    reader.GetUInt32 ("Mark");
             }
 
             reader.Close ();
@@ -70,7 +75,8 @@ namespace UniversityEnrolleesApplication
 
             while (reader.Read ())
             {
-                enrollees [reader.GetUInt32 ("EnrolleeID")].Choices.Add (reader.GetUInt32 ("Priority"), reader.GetUInt32 ("SpecialtyID"));
+                enrollees [reader.GetUInt32 ("EnrolleeID")].Choices
+                    .Add (reader.GetUInt32 ("Priority"), reader.GetUInt32 ("SpecialtyID"));
             }
 
             reader.Close ();
@@ -106,20 +112,23 @@ namespace UniversityEnrolleesApplication
             reader.Close ();
         }
 
-        private static void ReadSchoolMarksPriorities (Dictionary <uint, Specialty> specialties, MySqlConnection connection)
+        private static void ReadSchoolMarksPriorities (Dictionary <uint, Specialty> specialties,
+            MySqlConnection connection)
         {
             var readEnrollesCommand = new MySqlCommand ("select * from schoolmarkspriorities", connection);
             var reader = readEnrollesCommand.ExecuteReader ();
 
             while (reader.Read ())
             {
-                specialties [reader.GetUInt32 ("BelongsTo")].SchoolMarksPriorities.Add (reader.GetUInt32 ("Priority"), reader.GetUInt32 ("SubjectID"));
+                specialties [reader.GetUInt32 ("BelongsTo")].SchoolMarksPriorities
+                    .Add (reader.GetUInt32 ("Priority"), reader.GetUInt32 ("SubjectID"));
             }
 
             reader.Close ();
         }
 
-        private static void ReadAcceptedRODSubjects (Dictionary <uint, Specialty> specialties, MySqlConnection connection)
+        private static void ReadAcceptedRODSubjects (Dictionary <uint, Specialty> specialties,
+            MySqlConnection connection)
         {
             var readEnrollesCommand = new MySqlCommand ("select * from acceptedrodsubjects", connection);
             var reader = readEnrollesCommand.ExecuteReader ();
