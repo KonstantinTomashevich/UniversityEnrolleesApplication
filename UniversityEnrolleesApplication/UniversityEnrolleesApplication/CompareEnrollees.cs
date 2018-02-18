@@ -11,7 +11,7 @@ namespace UniversityEnrolleesApplication
         public static bool IsFirstEnrolleeBetter (Specialty specialty, Enrollee first, Enrollee second)
         {
             // TODO: Not all BSU checks implemented.
-            bool result = false;
+            bool result;
             if (CheckIsBothCanChoiceSpecialty (specialty, first, second, out result) ||
                 CheckRODs (specialty, first, second, out result) ||
                 CheckSchoolGoldMedals (specialty, first, second, out result) ||
