@@ -27,7 +27,8 @@ namespace UniversityEnrolleesApplication
             }
         }
 
-        private static bool CheckIsBothCanChoiceSpecialty (Specialty specialty, Enrollee first, Enrollee second, out bool resultOutput)
+        private static bool CheckIsBothCanChoiceSpecialty (Specialty specialty, Enrollee first, Enrollee second,
+            out bool resultOutput)
         {
             if (!CanEnrolleeChoiceSpecialty (specialty, first))
             {
@@ -68,13 +69,15 @@ namespace UniversityEnrolleesApplication
                 }
             }
 
-            else if (first.RODDiplomaType != RODDiplomaTypeEnum.NONE && specialty.AcceptedRODSubjects.Contains (first.RODSubjectID))
+            else if (first.RODDiplomaType != RODDiplomaTypeEnum.NONE &&
+                     specialty.AcceptedRODSubjects.Contains (first.RODSubjectID))
             {
                 resultOutput = true;
                 return true;
             }
 
-            else if (second.RODDiplomaType != RODDiplomaTypeEnum.NONE && specialty.AcceptedRODSubjects.Contains (second.RODSubjectID))
+            else if (second.RODDiplomaType != RODDiplomaTypeEnum.NONE &&
+                     specialty.AcceptedRODSubjects.Contains (second.RODSubjectID))
             {
                 resultOutput = false;
                 return true;
@@ -84,7 +87,8 @@ namespace UniversityEnrolleesApplication
             return false;
         }
 
-        private static bool CheckSchoolGoldMedals (Specialty specialty, Enrollee first, Enrollee second, out bool resultOutput)
+        private static bool CheckSchoolGoldMedals (Specialty specialty, Enrollee first, Enrollee second,
+            out bool resultOutput)
         {
             if (specialty.IsPedagogical)
             {
@@ -121,7 +125,8 @@ namespace UniversityEnrolleesApplication
             }
         }
 
-        private static bool CheckPrimaryExams (Specialty specialty, Enrollee first, Enrollee second, out bool resultOutput)
+        private static bool CheckPrimaryExams (Specialty specialty, Enrollee first, Enrollee second,
+            out bool resultOutput)
         {
             var firstBestResultsInPriority = GetBestResultsInPriorities (specialty, first, false);
             var secondBestResultsInPriority = GetBestResultsInPriorities (specialty, second, false);
@@ -130,7 +135,7 @@ namespace UniversityEnrolleesApplication
             {
                 if (firstBestResult.Value != secondBestResultsInPriority [firstBestResult.Key])
                 {
-                    resultOutput = firstBestResult.Value > secondBestResultsInPriority[firstBestResult.Key];
+                    resultOutput = firstBestResult.Value > secondBestResultsInPriority [firstBestResult.Key];
                     return true;
                 }
             }
@@ -139,12 +144,13 @@ namespace UniversityEnrolleesApplication
             return false;
         }
 
-        private static bool CheckSchoolCertificateMarks (Specialty specialty, Enrollee first, Enrollee second, out bool resultOutput)
+        private static bool CheckSchoolCertificateMarks (Specialty specialty, Enrollee first, Enrollee second,
+            out bool resultOutput)
         {
             foreach (var subject in specialty.SchoolMarksPriorities)
             {
-                uint firstMark = first.SchoolMarks[subject.Value];
-                uint secondMark = second.SchoolMarks[subject.Value];
+                uint firstMark = first.SchoolMarks [subject.Value];
+                uint secondMark = second.SchoolMarks [subject.Value];
 
                 if (firstMark != secondMark)
                 {
@@ -159,7 +165,8 @@ namespace UniversityEnrolleesApplication
 
         private static bool CanEnrolleeChoiceSpecialty (Specialty specialty, Enrollee enrollee)
         {
-            if (enrollee.RODDiplomaType != RODDiplomaTypeEnum.NONE && specialty.AcceptedRODSubjects.Contains (enrollee.RODSubjectID))
+            if (enrollee.RODDiplomaType != RODDiplomaTypeEnum.NONE &&
+                specialty.AcceptedRODSubjects.Contains (enrollee.RODSubjectID))
             {
                 return true;
             }
@@ -173,6 +180,7 @@ namespace UniversityEnrolleesApplication
                         return false;
                     }
                 }
+
                 return true;
             }
         }
@@ -186,22 +194,25 @@ namespace UniversityEnrolleesApplication
             {
                 score += result.Value;
             }
+
             return score;
         }
 
-        private static Dictionary<uint, uint> GetBestResultsInPriorities (Specialty specialty, Enrollee enrollee, bool addNotCompared = true)
+        private static Dictionary <uint, uint> GetBestResultsInPriorities (Specialty specialty, Enrollee enrollee,
+            bool addNotCompared = true)
         {
-            var bestResultsInPriority = new Dictionary<uint, uint> ();
+            var bestResultsInPriority = new Dictionary <uint, uint> ();
             foreach (var requiredCt in specialty.RequiredCTs)
             {
                 if (requiredCt.Value.UsedInPerExamComparision || addNotCompared)
                 {
-                    if (bestResultsInPriority[requiredCt.Key] < enrollee.CTsResults[requiredCt.Value.SubjectID])
+                    if (bestResultsInPriority [requiredCt.Key] < enrollee.CTsResults [requiredCt.Value.SubjectID])
                     {
-                        bestResultsInPriority[requiredCt.Key] = enrollee.CTsResults[requiredCt.Value.SubjectID];
+                        bestResultsInPriority [requiredCt.Key] = enrollee.CTsResults [requiredCt.Value.SubjectID];
                     }
                 }
             }
+
             return bestResultsInPriority;
         }
     }

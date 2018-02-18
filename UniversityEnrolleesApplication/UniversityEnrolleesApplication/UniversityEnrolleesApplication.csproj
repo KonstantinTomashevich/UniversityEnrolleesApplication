@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationProcessor.cs" />
     <Compile Include="CompareEnrollees.cs" />
     <Compile Include="Specialty.cs" />
     <Compile Include="DataReader.cs" />
