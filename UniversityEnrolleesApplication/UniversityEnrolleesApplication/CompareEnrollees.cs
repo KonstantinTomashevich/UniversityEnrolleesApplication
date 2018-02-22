@@ -206,7 +206,8 @@ namespace UniversityEnrolleesApplication
             {
                 if (requiredCt.Value.UsedInPerExamComparision || addNotCompared)
                 {
-                    if (bestResultsInPriority [requiredCt.Key] < enrollee.CTsResults [requiredCt.Value.SubjectID])
+                    if (!bestResultsInPriority.ContainsKey (requiredCt.Key) ||
+                        bestResultsInPriority [requiredCt.Key] < enrollee.CTsResults [requiredCt.Value.SubjectID])
                     {
                         bestResultsInPriority [requiredCt.Key] = enrollee.CTsResults [requiredCt.Value.SubjectID];
                     }

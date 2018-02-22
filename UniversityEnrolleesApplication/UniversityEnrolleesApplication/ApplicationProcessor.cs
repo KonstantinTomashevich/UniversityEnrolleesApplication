@@ -28,9 +28,14 @@ namespace UniversityEnrolleesApplication
                 var enrollee = enrollees.Pop ();
                 enrollee.AppliedIndex++;
 
+                if (enrollee.AppliedIndex < 0)
+                {
+                    enrollee.AppliedIndex = 0;
+                }
+
                 if (enrollee.AppliedIndex < enrollee.Choices.Count)
                 {
-                    var specialty = specialties [enrollee.Choices [enrollee.AppliedIndex]];
+                    var specialty = specialties [enrollee.Choices.ElementAt (enrollee.AppliedIndex).Value];
 
                     int index;
                     for (index = 0; index < specialty.Enrollees.Count; index++)

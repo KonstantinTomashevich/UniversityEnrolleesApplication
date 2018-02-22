@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using MySql.Data.MySqlClient;
 
 namespace UniversityEnrolleesApplication
@@ -16,7 +17,6 @@ namespace UniversityEnrolleesApplication
             CalculateEnrolleesSchoolMedianMarks (enrollees);
             ApplicationProcessor.Process (enrollees, specialties);
             UpdateTableWithResults (enrollees);
-            Console.In.Read ();
         }
 
         private static void CalculateEnrolleesSchoolMedianMarks (Dictionary <uint, Enrollee> enrollees)
@@ -40,19 +40,21 @@ namespace UniversityEnrolleesApplication
         {
             var connection =
                 new MySqlConnection ("server=localhost;database=Enrollees;uid=UEAAUser;password=UEAAUSERPASSWORD");
+            connection.Open ();
+            
             var command = connection.CreateCommand ();
             command.CommandType = CommandType.Text;
                 
             foreach (var enrolleePair in enrollees)
             {
-                for (uint index = 0; index < enrolleePair.Value.Choices.Count; index++)
+                for (int index = 0; index < enrolleePair.Value.Choices.Count; index++)
                 {
                     command.CommandText = "update enrolleestospecialtiesconnection " +
                                           "set IsAttended = " + (index == enrolleePair.Value.AppliedIndex
-                                              ? "true "
-                                              : "false ") +
-                                          "where EnrolleeID = " + enrolleePair.Key +"" +
-                                          ", SpecialtyID = " + enrolleePair.Value.Choices [index] + ";";
+                                              ? "b'1' "
+                                              : "b'0' ") +
+                                          "where EnrolleeID = " + enrolleePair.Key +
+                                          " and SpecialtyID = " + enrolleePair.Value.Choices.ElementAt (index).Value + ";";
                     command.Prepare ();
                     command.ExecuteNonQuery ();
                 }

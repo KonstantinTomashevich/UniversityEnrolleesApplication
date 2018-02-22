@@ -40,7 +40,7 @@ namespace UniversityEnrolleesApplication
             Choices = new SortedList <uint, uint> ();
 
             SchoolMedianMarkPoints = 0;
-            AppliedIndex = UInt32.MaxValue;
+            AppliedIndex = Int32.MaxValue;
         }
 
         public bool HasSchoolGoldMedal;
@@ -53,6 +53,6 @@ namespace UniversityEnrolleesApplication
 
         // Runtime.
         public uint SchoolMedianMarkPoints;
-        public uint AppliedIndex;
+        public int AppliedIndex;
     }
 }
