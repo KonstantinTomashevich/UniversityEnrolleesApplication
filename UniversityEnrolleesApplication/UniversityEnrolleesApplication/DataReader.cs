@@ -33,7 +33,7 @@ namespace UniversityEnrolleesApplication
             while (reader.Read ())
             {
                 Enrollee enrollee = new Enrollee (reader.GetBoolean ("HasSchoolGoldMedal"),
-                    reader.GetString ("RODDiplomaType"), reader.GetUInt32 ("RODSubjectID"));
+                    reader.GetString ("RODDiplomaType"), reader.GetInt32 ("RODSubjectID"));
                 enrollees [reader.GetUInt32 ("ID")] = enrollee;
             }
 
@@ -135,7 +135,7 @@ namespace UniversityEnrolleesApplication
 
             while (reader.Read ())
             {
-                specialties [reader.GetUInt32 ("BelongsTo")].AcceptedRODSubjects.Add (reader.GetUInt32 ("SubjectID"));
+                specialties [reader.GetUInt32 ("BelongsTo")].AcceptedRODSubjects.Add (reader.GetInt32 ("SubjectID"));
             }
 
             reader.Close ();

@@ -25,7 +25,7 @@ namespace UniversityEnrolleesApplication
 
             RequiredCTs = new SortedList <uint, RequiredCT> ();
             SchoolMarksPriorities = new SortedList <uint, uint> ();
-            AcceptedRODSubjects = new List <uint> ();
+            AcceptedRODSubjects = new List <int> ();
             
             Enrollees = new List <Enrollee> ();
         }
@@ -37,7 +37,7 @@ namespace UniversityEnrolleesApplication
 
         public SortedList <uint, RequiredCT> RequiredCTs;
         public SortedList <uint, uint> SchoolMarksPriorities;
-        public List <uint> AcceptedRODSubjects;
+        public List <int> AcceptedRODSubjects;
         
         // Runtime.
         public List <Enrollee> Enrollees;

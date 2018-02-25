@@ -13,7 +13,7 @@ namespace UniversityEnrolleesApplication
 
     public class Enrollee
     {
-        public Enrollee (bool _HasSchoolGoldMedal, string _RODDiplomaType, uint _RODSubjectID)
+        public Enrollee (bool _HasSchoolGoldMedal, string _RODDiplomaType, int _RODSubjectID)
         {
             HasSchoolGoldMedal = _HasSchoolGoldMedal;
             RODSubjectID = _RODSubjectID;
@@ -45,7 +45,7 @@ namespace UniversityEnrolleesApplication
 
         public bool HasSchoolGoldMedal;
         public RODDiplomaTypeEnum RODDiplomaType;
-        public uint RODSubjectID;
+        public int RODSubjectID;
 
         public Dictionary <uint, uint> CTsResults;
         public Dictionary <uint, uint> SchoolMarks;
