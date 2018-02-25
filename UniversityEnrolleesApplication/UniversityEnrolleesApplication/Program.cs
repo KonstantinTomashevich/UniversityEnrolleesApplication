@@ -16,6 +16,12 @@ namespace UniversityEnrolleesApplication
             DataReader.ReadData (out enrollees, out specialties);
             CalculateEnrolleesSchoolMedianMarks (enrollees);
             ApplicationProcessor.Process (enrollees, specialties);
+
+            if (args.Length == 1 && args [0] == "--checkcorrectness")
+            {
+                CheckCorrectness (enrollees, specialties);
+            }
+
             UpdateTableWithResults (enrollees);
         }
 
@@ -41,10 +47,10 @@ namespace UniversityEnrolleesApplication
             var connection =
                 new MySqlConnection ("server=localhost;database=Enrollees;uid=UEAAUser;password=UEAAUSERPASSWORD");
             connection.Open ();
-            
+
             var command = connection.CreateCommand ();
             command.CommandType = CommandType.Text;
-                
+
             foreach (var enrolleePair in enrollees)
             {
                 for (int index = 0; index < enrolleePair.Value.Choices.Count; index++)
@@ -54,13 +60,38 @@ namespace UniversityEnrolleesApplication
                                               ? "b'1' "
                                               : "b'0' ") +
                                           "where EnrolleeID = " + enrolleePair.Key +
-                                          " and SpecialtyID = " + enrolleePair.Value.Choices.ElementAt (index).Value + ";";
+                                          " and SpecialtyID = " + enrolleePair.Value.Choices.ElementAt (index).Value +
+                                          ";";
                     command.Prepare ();
                     command.ExecuteNonQuery ();
                 }
             }
-            
+
             connection.Close ();
+        }
+
+        private static void CheckCorrectness (Dictionary <uint, Enrollee> enrollees,
+            Dictionary <uint, Specialty> specialties)
+        {
+            foreach (var enrolleeData in enrollees)
+            {
+                var enrollee = enrolleeData.Value;
+                if (enrollee.AppliedIndex >= enrollee.Choices.Count)
+                {
+                    foreach (var choiceData in enrollee.Choices)
+                    {
+                        var specialty = specialties [choiceData.Value];
+                        foreach (var anotherEnrollee in specialty.Enrollees)
+                        {
+                            if (CompareEnrollees.IsFirstEnrolleeBetter (specialty, enrollee, anotherEnrollee))
+                            {
+                                throw new Exception ("Enrollee " + enrolleeData.Key + "is better than one of the" +
+                                                     "enrollees of " + choiceData.Value + ", but it wasn't applied!");
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
